@@ -17,8 +17,7 @@ import org.testng.annotations.*;
 
 public class lambdaTestSeleniumMac {
 	
-//	RemoteWebDriver driver;
-//	WebDriver driver;
+
 	public String url = "https://www.lambdatest.com/selenium-playground/";
     public String username = "mr.vishalsharma31";
     public String accesskey = "leRniBj3FiJpgmERw7OCxZS9T7XwUQv1bpGmURFbvuwFpmJwJR";
