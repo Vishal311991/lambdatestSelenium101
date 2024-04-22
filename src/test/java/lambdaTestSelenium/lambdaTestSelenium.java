@@ -7,7 +7,10 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -17,31 +20,47 @@ import org.testng.annotations.*;
 
 public class lambdaTestSelenium {
 	
-//	RemoteWebDriver driver;
-//	WebDriver driver;
+
 	public String url = "https://www.lambdatest.com/selenium-playground/";
     public String username = "mr.vishalsharma31";
     public String accesskey = "leRniBj3FiJpgmERw7OCxZS9T7XwUQv1bpGmURFbvuwFpmJwJR";
-    public static RemoteWebDriver driver = null;
+    public RemoteWebDriver driver;
     public String gridURL = "@hub.lambdatest.com/wd/hub";
+    
+
+    
 	
 	@BeforeTest
 	public void setUp() {
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability("browserName", "Chrome");
-		capabilities.setCapability("version", "70.0");
-		capabilities.setCapability("platform", "win10");
+        
+        
+		ChromeOptions browserOptions = new ChromeOptions();
+		browserOptions.setPlatformName("win10");
+		browserOptions.setBrowserVersion("123.0");
+		HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+		ltOptions.put("username", "mr.vishalsharma31");
+		ltOptions.put("accessKey", "leRniBj3FiJpgmERw7OCxZS9T7XwUQv1bpGmURFbvuwFpmJwJR");
+		ltOptions.put("visual", true);
+		ltOptions.put("video", true);
+		ltOptions.put("build", "LambdatestWindows");
+		ltOptions.put("project", "LambdatestWindows");
+		ltOptions.put("smartUI.project", "Selenium101");
+		ltOptions.put("selenium_version", "4.0.0");
+		ltOptions.put("w3c", true);
+		browserOptions.setCapability("LT:Options", ltOptions);
 		
-        try {
-            driver = new RemoteWebDriver(new URL("https://" + username + ":" + accesskey + gridURL), capabilities);
-        } catch (MalformedURLException e) {
-            System.out.println("Invalid grid URL");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+      try {
+      driver = new RemoteWebDriver(new URL("https://" + username + ":" + accesskey + gridURL), browserOptions);
+  } catch (MalformedURLException e) {
+      System.out.println("Invalid grid URL");
+  } catch (Exception e) {
+      System.out.println(e.getMessage());
+  }
+		
 		
 //		System.setProperty("webdriver.chrome.driver", "./Drivers/chromedriver.exe");
 //		driver = new ChromeDriver();
+		
 		
 	}
 	
@@ -57,6 +76,7 @@ public class lambdaTestSelenium {
 
 	public void testScenario1() throws Exception {
 		    driver.get(url);
+		    driver.manage().window().maximize();
 		    driver.findElement(By.linkText("Simple Form Demo")).click();
 		    String currentUrl = driver.getCurrentUrl();		    
 		    driver.findElement(By.id("user-message")).click();
@@ -70,16 +90,16 @@ public class lambdaTestSelenium {
 		    System.out.println("Scenario 1 test passed!");
 		  }
 		
-	
 
 	@Test
 	
 	public void testScenario2() {
 		
 	    driver.get(url);
+	    driver.manage().window().maximize();
 		driver.findElement(By.linkText("Drag & Drop Sliders")).click();
 		WebElement slider = driver.findElement(By.xpath("//input[@value='15']"));
-		int xOffset = 80; 
+		int xOffset = 215; 
         new org.openqa.selenium.interactions.Actions(driver).dragAndDropBy(slider, xOffset, 0).build().perform();
         String rangeValue = driver.findElement(By.id("rangeSuccess")).getAttribute("value");
         Assert.assertEquals(rangeValue, "95", "Slider range value is not as expected");
@@ -88,13 +108,12 @@ public class lambdaTestSelenium {
 	
 
 
-
-
 @Test
 
 	public void testScenario3() {
 	
 	driver.get(url);
+	driver.manage().window().maximize();
     driver.findElement(By.linkText("Input Form Submit")).click();
     driver.findElement(By.id("name")).clear();
     driver.findElement(By.id("name")).sendKeys("Vishal Sharma");
@@ -130,7 +149,7 @@ public class lambdaTestSelenium {
     String sucessMessage = driver.findElement(By.xpath("//div[@id='__next']/div/section[2]/div/div/div/div/p")).getText();
     String expectedMessage = "Thanks for contacting us, we will get back to you shortly.";
     Assert.assertEquals(sucessMessage, expectedMessage, "Display message is not as expected");
-    System.out.println("Senario 2 test passed!");
+    System.out.println("Senario 3 test passed!");
 
     
 }

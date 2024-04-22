@@ -1,19 +1,22 @@
 package lambdaTestSelenium;
 
-import static org.testng.Assert.fail;
-
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.SafariOptions;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.annotations.BeforeTest;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 public class lambdaTestSeleniumMac {
 	
@@ -21,19 +24,32 @@ public class lambdaTestSeleniumMac {
 	public String url = "https://www.lambdatest.com/selenium-playground/";
     public String username = "mr.vishalsharma31";
     public String accesskey = "leRniBj3FiJpgmERw7OCxZS9T7XwUQv1bpGmURFbvuwFpmJwJR";
-    public static RemoteWebDriver driver = null;
+    public static RemoteWebDriver driver;
     public String gridURL = "@hub.lambdatest.com/wd/hub";
 	
 	@BeforeTest
 	public void setUp() {
-		DesiredCapabilities capabilities = new DesiredCapabilities();
-		capabilities.setCapability("browserName", "Safari");
-		capabilities.setCapability("version", "16.0");
-		capabilities.setCapability("platform", "macOS Ventura");
+//		DesiredCapabilities capabilities = new DesiredCapabilities();
+//		capabilities.setCapability("browserName", "Safari");
+//		capabilities.setCapability("version", "16.0");
+//		capabilities.setCapability("platform", "macOS Ventura");
 		
+		SafariOptions browserOptions = new SafariOptions();
+		browserOptions.setPlatformName("macOS Ventura");
+		browserOptions.setBrowserVersion("16.0");
+		HashMap<String, Object> ltOptions = new HashMap<String, Object>();
+		ltOptions.put("username", "mr.vishalsharma31");
+		ltOptions.put("accessKey", "leRniBj3FiJpgmERw7OCxZS9T7XwUQv1bpGmURFbvuwFpmJwJR");
+		ltOptions.put("visual", true);
+		ltOptions.put("video", true);
+		ltOptions.put("build", "LambdatestMac");
+		ltOptions.put("project", "Selenium101");
+		ltOptions.put("smartUI.project", "Selenium101");
+		ltOptions.put("w3c", true);
+		browserOptions.setCapability("LT:Options", ltOptions);
 		
         try {
-            driver = new RemoteWebDriver(new URL("https://" + username + ":" + accesskey + gridURL), capabilities);
+            driver = new RemoteWebDriver(new URL("https://" + username + ":" + accesskey + gridURL), browserOptions);
         } catch (MalformedURLException e) {
             System.out.println("Invalid grid URL");
         } catch (Exception e) {
@@ -57,6 +73,13 @@ public class lambdaTestSeleniumMac {
 
 	public void testScenario1() throws Exception {
 		    driver.get(url);
+		   	Thread.sleep(5000);
+		   	try {
+		   		driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll")).click();
+		   	}catch (Exception e) {
+		   		e.printStackTrace();
+		   	}
+		   	
 		    driver.findElement(By.linkText("Simple Form Demo")).click();
 		    String currentUrl = driver.getCurrentUrl();		    
 		    driver.findElement(By.id("user-message")).click();
@@ -74,12 +97,18 @@ public class lambdaTestSeleniumMac {
 
 	@Test
 	
-	public void testScenario2() {
+	public void testScenario2() throws InterruptedException {
 		
 	    driver.get(url);
+	   	Thread.sleep(5000);
+	   	try {
+	   		driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll")).click();
+	   	}catch (Exception e) {
+	   		e.printStackTrace();
+	   	}
 		driver.findElement(By.linkText("Drag & Drop Sliders")).click();
 		WebElement slider = driver.findElement(By.xpath("//input[@value='15']"));
-		int xOffset = 80; 
+		int xOffset = 215; 
         new org.openqa.selenium.interactions.Actions(driver).dragAndDropBy(slider, xOffset, 0).build().perform();
         String rangeValue = driver.findElement(By.id("rangeSuccess")).getAttribute("value");
         Assert.assertEquals(rangeValue, "95", "Slider range value is not as expected");
@@ -92,9 +121,16 @@ public class lambdaTestSeleniumMac {
 
 @Test
 
-	public void testScenario3() {
+	public void testScenario3() throws InterruptedException {
 	
 	driver.get(url);
+ 
+   	Thread.sleep(5000);
+   	try {
+   		driver.findElement(By.id("CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll")).click();
+   	}catch (Exception e) {
+   		e.printStackTrace();
+   	}
     driver.findElement(By.linkText("Input Form Submit")).click();
     driver.findElement(By.id("name")).clear();
     driver.findElement(By.id("name")).sendKeys("Vishal Sharma");
@@ -130,7 +166,7 @@ public class lambdaTestSeleniumMac {
     String sucessMessage = driver.findElement(By.xpath("//div[@id='__next']/div/section[2]/div/div/div/div/p")).getText();
     String expectedMessage = "Thanks for contacting us, we will get back to you shortly.";
     Assert.assertEquals(sucessMessage, expectedMessage, "Display message is not as expected");
-    System.out.println("Senario 2 test passed!");
+    System.out.println("Scenario 3 test passed!");
 
     
 }
