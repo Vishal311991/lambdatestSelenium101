@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite parallel="tests" name="Failed suite [LambdaTestParallel]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" parallel="tests" name="Mac(failed)">
+    <parameter name="browser" value="safari"/>
+    <classes>
+      <class name="lambdaTestSelenium.lambdaTestParallel">
+        <methods>
+          <include name="testScenario3"/>
+          <include name="testScenario1"/>
+          <include name="testScenario2"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- lambdaTestSelenium.lambdaTestParallel -->
+    </classes>
+  </test> <!-- Mac(failed) -->
+  <test thread-count="5" parallel="tests" name="Windows(failed)">
+    <parameter name="browser" value="chrome"/>
+    <classes>
+      <class name="lambdaTestSelenium.lambdaTestParallel">
+        <methods>
+          <include name="testScenario3"/>
+          <include name="testScenario1"/>
+          <include name="testScenario2"/>
+          <include name="setUp"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- lambdaTestSelenium.lambdaTestParallel -->
+    </classes>
+  </test> <!-- Windows(failed) -->
+</suite> <!-- Failed suite [LambdaTestParallel] -->
