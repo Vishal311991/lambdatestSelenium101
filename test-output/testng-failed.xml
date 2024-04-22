@@ -5,11 +5,9 @@
     <classes>
       <class name="lambdaTestSelenium.lambdaTestSeleniumMac">
         <methods>
-          <include name="testScenario2"/>
           <include name="tearDown"/>
           <include name="testScenario1"/>
           <include name="setUp"/>
-          <include name="testScenario3"/>
         </methods>
       </class> <!-- lambdaTestSelenium.lambdaTestSeleniumMac -->
     </classes>
